@@ -6,7 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 
-data = pd.read_excel(r'C:\Users\ccast\Desktop\IA_V4S\MatrizLlena.xlsx')
+data = pd.read_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\MatrizLlena.xlsx')
 
 data['Suma Respuestas'] = data.iloc[:, 1:].apply(lambda row: row[(row == 1) | (row == 0)].sum(), axis=1)
 
@@ -28,6 +28,6 @@ plt.legend()
 plt.grid()
 plt.show()
 
-data.to_excel(r'C:\Users\ccast\Desktop\IA_V4S\MatrizConEtiquetas.xlsx', index=False)
+data.to_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\MatrizConEtiquetas.xlsx', index=False)
 
 print(data)

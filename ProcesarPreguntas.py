@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-df = pd.read_excel(r'C:\Users\ccast\Desktop\IA_V4S\Matriz.xlsx', header=None)
+df = pd.read_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\Matriz.xlsx', header=None)
 preguntas = df.iloc[0, 1:].dropna().tolist()
 
 
@@ -27,7 +27,7 @@ clasificaciones_df = pd.DataFrame({
     'Pregunta': preguntas,
     'Clasificación': clasificaciones[len(ejemplos_positivos) + len(ejemplos_negativos):]
 })
-clasificaciones_df.to_excel(r'C:\Users\ccast\Desktop\IA_V4S\clasificaciones_preguntas.xlsx', index=False)
+clasificaciones_df.to_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\clasificaciones_preguntas.xlsx', index=False)
 
 plt.figure(figsize=(10, 8))
 colores = {'Positiva': 'g', 'Negativa': 'r', 'Sin etiqueta': 'gray'}
@@ -43,22 +43,3 @@ for i, pregunta in enumerate(preguntas[:num_etiquetadas]):
 plt.legend(['Positiva', 'Negativa', 'Sin etiqueta'])
 plt.title('Clasificación de preguntas sobre delincuencia (solo primeras 20 etiquetadas)')
 plt.show()
-
-
-#clasificación basada en similitud de coseno es semi-supervisado pq necesita ejemplos.
-
-# Los ejes X y Y en el gráfico no tienen un significado directo en términos de palabras o temas específicos.
-# En cambio, lo que representan son **combinaciones lineales de las características** de las preguntas 
-# que mejor capturan y representan la variabilidad de los datos.
-#
-# Estas combinaciones lineales son generadas por el algoritmo PCA, que busca reducir las dimensiones de los datos
-# preservando la mayor parte de la información posible. En otras palabras, cada eje en el gráfico representa 
-# una "combinación" de las características de las preguntas que permite separar o diferenciar las preguntas 
-# en función de sus términos.
-#
-# Por ejemplo, si una pregunta tiene un alto valor para ciertas palabras clave y otra pregunta tiene un 
-# alto valor para un conjunto diferente de palabras clave, PCA ajustará las coordenadas X e Y para maximizar 
-# la distancia entre ellas en el nuevo espacio 2D, reflejando así sus diferencias en el contenido semántico.
-#
-# Esto significa que, aunque los ejes no tienen una interpretación directa de palabras, las distancias entre 
-# los puntos en el gráfico reflejan la similitud o diferencia de los temas y términos entre las preguntas.
