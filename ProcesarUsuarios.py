@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
+
+data = pd.read_excel(r'C:\Users\ccast\Desktop\IA_V4S\MatrizLlena.xlsx')
+
+data['Suma Respuestas'] = data.iloc[:, 1:].apply(lambda row: row[(row == 1) | (row == 0)].sum(), axis=1)
+
+data['Etiqueta'] = np.where(data['Suma Respuestas'] > 100, 1, 0)
+
+X = data[['Suma Respuestas']]
+y = data['Etiqueta']
+
+data['Edad'] = np.random.randint(18, 61, size=len(data))
+
+plt.figure(figsize=(10, 6))
+plt.scatter(data['Suma Respuestas'], data['Edad'], c=data['Etiqueta'], cmap='coolwarm', alpha=0.6, edgecolors='k')
+plt.axvline(x=100, color='green', linestyle='--', label='Límite de seguridad (Suma = 100)')
+plt.title('Distribución de Puntajes de Seguridad por Edad')
+plt.xlabel('Suma de Respuestas (0-150)')
+plt.ylabel('Edad (18-60)')
+plt.colorbar(label='Clasificación (0: Inseguro, 1: Seguro)')
+plt.legend()
+plt.grid()
+plt.show()
+
+data.to_excel(r'C:\Users\ccast\Desktop\IA_V4S\MatrizConEtiquetas.xlsx', index=False)
+
+print(data)
