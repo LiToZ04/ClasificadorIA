@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-df = pd.read_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\Matriz.xlsx', header=None)
+df = pd.read_excel(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\Matriz.xlsx', header=None)
 preguntas = df.iloc[0, 1:].dropna().tolist()
 
 ejemplos_positivos = ["¿Qué acciones están tomando para reducir la delincuencia?", "¿Cómo ha mejorado la seguridad últimamente?"]
@@ -38,7 +38,7 @@ clasificaciones_df = pd.DataFrame({
     'Pregunta': preguntas,
     'Clasificación': clasificaciones[len(ejemplos_positivos) + len(ejemplos_negativos) + len(ejemplos_neutrales):]
 })
-clasificaciones_df.to_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\clasificaciones_preguntas.xlsx', index=False)
+clasificaciones_df.to_excel(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\clasificaciones_preguntas.xlsx', index=False)
 
 plt.figure(figsize=(10, 8))
 colores = {'Positiva': 'g', 'Negativa': 'r', 'Neutral': 'b', 'Sin etiqueta': 'gray'}

@@ -4,7 +4,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
-df = pd.read_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\clasificaciones_preguntas.xlsx')
+df = pd.read_excel(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\clasificaciones_preguntas.xlsx')
 preguntas = df['Pregunta'].tolist()
 etiquetas = df['Clasificación'].tolist()
 
@@ -22,7 +22,11 @@ X_no_etiquetadas = vectorizer.transform(preguntas_no_etiquetadas)
 predicciones_no_etiquetadas = modelo.predict(X_no_etiquetadas)
 
 df.loc[20:, 'Clasificación'] = predicciones_no_etiquetadas  
-df.to_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\clasificaciones_preguntas_completas.xlsx', index=False)
+
+with pd.ExcelWriter(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\clasificaciones_preguntas_completas.xlsx') as writer:
+    df.to_excel(writer, sheet_name='Clasificaciones', index=False)
+    conteo = df['Clasificación'].value_counts().rename_axis('Clasificación').reset_index(name='Cantidad')
+    conteo.to_excel(writer, sheet_name='Conteo', index=False)
 
 X_todas = vectorizer.transform(preguntas)
 pca = PCA(n_components=2)

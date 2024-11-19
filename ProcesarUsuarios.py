@@ -1,15 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import StandardScaler
 
-data = pd.read_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\MatrizLlena.xlsx')
+data = pd.read_excel(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\MatrizLlena.xlsx')
 
 data['Suma Respuestas'] = data.iloc[:, 1:].apply(lambda row: row[(row == 1) | (row == 0)].sum(), axis=1)
-
 data['Etiqueta'] = np.where(data['Suma Respuestas'] > 100, 1, 
                             np.where(data['Suma Respuestas'] < 90, -1, 0))
 
@@ -30,6 +25,10 @@ plt.legend()
 plt.grid()
 plt.show()
 
-data.to_excel(r'C:\Users\ccast\Desktop\ClasificadorIA\MatrizConEtiquetas.xlsx', index=False)
+with pd.ExcelWriter(r'C:\Users\ccast\Desktop\Codigos\Practicas\ClasificadorIA\MatrizConEtiquetas.xlsx') as writer:
+    data.to_excel(writer, sheet_name='Datos', index=False)
+    conteo = data['Etiqueta'].value_counts().rename_axis('Etiqueta').reset_index(name='Cantidad')
+    conteo['Etiqueta'] = conteo['Etiqueta'].map({1: 'Seguro', 0: 'Neutral', -1: 'Inseguro'})
+    conteo.to_excel(writer, sheet_name='Conteo', index=False)
 
 print(data)
